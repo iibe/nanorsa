@@ -1,6 +1,3 @@
-const binpow = require("./bin/binpow");
-const GCD = require("./bin/GCD");
-
 /**
  * Implements RSA(Rivest–Shamir–Adleman) public-key cryptosystem.
  */

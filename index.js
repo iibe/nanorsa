@@ -1,5 +1,5 @@
 const binpow = require("./bin/binpow");
-const GCD = require("./bin/GCD");
+const bingcd = require("./bin/bingcd");
 
 const RSA = require("./rsa");
 const rsa = new RSA();
@@ -10,5 +10,16 @@ const rsa = new RSA();
 // https://ru.wikipedia.org/wiki/RSA
 // https://ru.wikipedia.org/wiki/Функция_Эйлера
 
-console.log(GCD(2, 4), GCD(125, 25));
-console.log(binpow(2, 4), binpow(125, 3));
+console.log(
+  bingcd(-27, 96),
+  bingcd(125, -25),
+  bingcd(-344, 48),
+  bingcd(-344, 0),
+);
+
+console.log(
+  binpow(-2, 3),
+  binpow(-16, 3.5),
+  binpow(-125, -3.1),
+  binpow(16, 15),
+);
