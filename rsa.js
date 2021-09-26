@@ -1,6 +1,12 @@
+const binpow = require("./bin/binpow");
+const GCD = require("./bin/GCD");
+
+/**
+ * Implements RSA(Rivest–Shamir–Adleman) public-key cryptosystem.
+ */
 module.exports = class RSA {
   /**
-   * Create RSA instance.
+   * Creates an instance.
    * @param {object} options RSA options.
    * @param {number} options.bytes Bytes (32, 64, 128, 256)
    */

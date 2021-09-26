@@ -1,7 +1,7 @@
 const binpow = require("./bin/binpow");
 const GCD = require("./bin/GCD");
 
-const RSA = require("./src/RSA");
+const RSA = require("./rsa");
 const rsa = new RSA();
 
 // https://github.com/denysdovhan/rsa-labwork/blob/master/index.js
