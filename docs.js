@@ -1,3 +1,10 @@
+// https://github.com/denysdovhan/rsa-labwork/blob/master/index.js
+// https://www.educative.io/edpresso/what-is-the-rsa-algorithm
+// http://infoprotect.net/varia/algoritm_shifrovaniya_rsa_primer
+// https://ru.wikipedia.org/wiki/RSA
+// https://ru.wikipedia.org/wiki/Функция_Эйлера
+// https://www.di-mgt.com.au/rsa_alg.html
+
 /**
  * Modular (binary) exponentiation alghorithm:
  * @source https://e-maxx.ru/algo/binary_pow
