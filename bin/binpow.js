@@ -1,7 +1,7 @@
 /**
  * Binary power algorithm is an improved alghorithm for number exponentiation.
  * @param {number} number Base number.
- * @param {number} power Exponent(or power, or index).
+ * @param {number} power Exponent (or power, or index).
  * @return {number} Result of exponentiation.
  */
 module.exports = function binpow(number, power) {
