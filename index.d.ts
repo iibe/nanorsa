@@ -4,7 +4,7 @@
  * @param limit Finds all primes until `limit`.
  * @return Prime numbers list.
  */
-export function atkin(limit: number): number[];
+export function atkin(limit?: number): number[];
 
 /**
  * Binary GCD algorithm (or Stein's algorithm or the binary Euclidean algorithm) is an improved version of Euclidean algorithm for finding the greatest common divisor of two nonnegative integers.
@@ -38,4 +38,4 @@ export function range(min: number, max: number): number;
  * @param precision Floating point precision.
  * @return Rounded float number.
  */
-export function range(number: number, precision?: number): number;
+export function round(number: number, precision?: number): number;

@@ -10,7 +10,8 @@
   ],
   "scripts": {
     "start": "nodemon index.js",
-    "test": "nodemon test.js"
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "author": "Roman Narvatov <kjiibe@gmail.com>",
   "license": "MIT",

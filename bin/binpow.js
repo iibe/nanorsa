@@ -1,4 +1,8 @@
 module.exports = function binpow(number, power) {
+  if (!(Number.isInteger(number) && Number.isInteger(power))) {
+    throw new Error("Parameters should be an integer numbers.");
+  }
+
   power = Math.abs(parseInt(power));
 
   let result = 1;

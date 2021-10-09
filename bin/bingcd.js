@@ -1,8 +1,12 @@
 module.exports = function bingcd(a, b) {
-  a = Math.abs(parseInt(a, 10));
-  b = Math.abs(parseInt(b, 10));
+  if (!(Number.isInteger(a) && Number.isInteger(b))) {
+    throw new Error("Parameters should be an integer numbers.");
+  }
 
-  // gcd(0, b) === b, gcd(a, 0) === a, gcd(0, 0) === 0
+  a = Math.abs(a);
+  b = Math.abs(b);
+
+  // gcd(a, 0) == a, gcd(0, b) == b, gcd(0, 0) == 0
   if (a === 0) return b;
   if (b === 0) return a;
 
@@ -21,11 +25,7 @@ module.exports = function bingcd(a, b) {
     while ((b & 1) === 0) b >>= 1;
 
     // Swap if necessary so a <= b, then set b = b - a (which is even).
-    if (a > b) {
-      let c = a;
-      a = b;
-      b = c;
-    }
+    if (a > b) [a, b] = [b, a];
 
     b -= a;
   } while (b !== 0);
