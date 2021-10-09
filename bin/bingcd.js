@@ -1,9 +1,3 @@
-/**
- * Binary GCD (or Stein's) algorithm is an improved version of Euclidean algorithm for finding the greatest common divider between 2 integer numbers.
- * @param {number} a 1st integer number.
- * @param {number} b 2nd integer number.
- * @return {number} Greatest common divider (GCD).
- */
 module.exports = function bingcd(a, b) {
   a = Math.abs(parseInt(a, 10));
   b = Math.abs(parseInt(b, 10));

@@ -1,0 +1,4 @@
+tsconfig.json
+yarn.lock
+yarn-error.log*
+bin/**/*.{test, spec}.{js, ts}

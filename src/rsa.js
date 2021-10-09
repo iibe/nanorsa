@@ -1,7 +1,7 @@
-const binpow = require("./bin/binpow");
-const bingcd = require("./bin/bingcd");
-const range = require("./bin/range");
-const atkin = require("./bin/atkin");
+const binpow = require("../bin/binpow");
+const bingcd = require("../bin/bingcd");
+const range = require("../bin/range");
+const atkin = require("../bin/atkin");
 
 /**
  * Implements RSA(Rivest–Shamir–Adleman) public-key cryptosystem.

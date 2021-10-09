@@ -1,12 +1,7 @@
-/**
- * Sieve of Atkin is improved version of Eratosthenes sieve for finding a primes.
- * @param {number} limit Number.
- * @return {number[]} Primes list.
- */
 module.exports = function atkin(limit = 0) {
   limit = Math.abs(parseInt(limit, 10));
 
-  // Initialise the sieve array with false values:
+  // Initialize the sieve array with false values:
   const sieve = Array(++limit).fill(false);
 
   /**
@@ -17,7 +12,6 @@ module.exports = function atkin(limit = 0) {
    */
   for (let x = 1; x * x < limit; x++) {
     for (let y = 1; y * y < limit; y++) {
-      // Main part of Sieve of Atkin:
       let i;
 
       i = 4 * x * x + y * y;

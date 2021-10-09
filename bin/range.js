@@ -1,7 +1,7 @@
 /**
  * Random integer between the specified values.
- * @param {number} min Integer 1 (min).
- * @param {number} max Integer 2 (max).
+ * @param {number} min Left border.
+ * @param {number} max Right border.
  * @return {number} Returns an integer in range of [min, max].
  */
 module.exports = function range(min, max) {
