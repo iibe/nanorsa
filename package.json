@@ -1,15 +1,16 @@
 {
   "name": "nanorsa",
   "version": "1.0.0",
-  "description": "A tiny, RSA encryption library",
-  "main": "src/index.js",
+  "description": "A tiny library for RSA encryption.",
+  "main": "index.js",
   "keywords": [
     "rsa",
     "cryptography",
     "encryption"
   ],
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
+    "watch": "nodemon index.js",
     "test": "jest",
     "test:coverage": "jest --coverage"
   },
