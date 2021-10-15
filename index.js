@@ -1,16 +1,13 @@
-const RSA = require("./rsa");
-const rsa = new RSA({ bytes: 32 });
+// NOTE: Better to set bit value to 16 since 2 ^ 16 - 1 is a number of Unicode char code. The fewer the number of bits, the faster the encryption will take place, and the greater the chance of error, since not all Unicode characters will be available.
+const rsa = require("./rsa")({ bit: 8 });
 
-const m = "Hello world"; // initial message
-const e = rsa.encrypt(m); // encrypted value
-const d = rsa.decrypt(e); // decrypted value
-const i = rsa.info; // intermediate values
-const k = rsa.keys; // public and private key
+const m = "Hello world";
+const e = rsa.encode(m);
+const d = rsa.decode(e);
 
-console.log("M:", m);
-console.log("E:", e);
-console.log("D:", d);
-console.log("I:", i);
-console.log("K:", k);
+console.log(rsa.log);
+console.log(rsa.key);
 
-// NOTE: https://www.cs.utexas.edu/~mitra/honors/soln.html
+console.log(m);
+console.log(e);
+console.log(d);

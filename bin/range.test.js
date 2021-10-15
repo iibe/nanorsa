@@ -2,7 +2,7 @@ const range = require("./range");
 
 describe("range():", () => {
   it("should return number in range [min, max]:", () => {
-    const randoms = Array.from({ length: 1e2 }, () =>
+    const randoms = Array.from({ length: 1e3 }, () =>
       Math.floor(Math.random() * 10),
     );
 
@@ -10,13 +10,13 @@ describe("range():", () => {
     const [min, max] = [Math.min(...uniques), Math.max(...uniques)];
 
     while (uniques.size) {
-      const rnd = range(min, max);
+      const r = range(min, max);
 
-      expect(rnd).toBeGreaterThanOrEqual(min);
-      expect(rnd).toBeLessThanOrEqual(max);
+      expect(r).toBeGreaterThanOrEqual(min);
+      expect(r).toBeLessThanOrEqual(max);
 
-      if (uniques.has(rnd)) {
-        uniques.delete(rnd);
+      if (uniques.has(r)) {
+        uniques.delete(r);
       }
     }
   });

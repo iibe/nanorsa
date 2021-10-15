@@ -1,93 +1,105 @@
-"use strict";
-
 const atkin = require("./bin/atkin");
 const binpow = require("./bin/binpow");
 const bingcd = require("./bin/bingcd");
 const range = require("./bin/range");
 
-module.exports = class RSA {
-  #primes;
+class RSA {
+  static #instance = null;
 
   /**
-   * Creates an instance of RSA class.
-   * @param {object} options Option list.
-   * @param {number} options.bytes
+   * Creates only one instance of RSA class throughout the app
+   * @param {object} options Option list
+   * @param {number} options.bit Bit complexity
    */
-  constructor({ bytes }) {
-    this.#primes = atkin(1 << bytes);
-    this.p = this.#primes[range(3, this.#primes.length - 1)];
-    this.q = this.#primes[range(3, this.#primes.length - 1)];
-    this.n = this.p * this.q;
-    this.phi = (this.p - 1) * (this.q - 1);
-    this.e = null;
-    this.d = null;
-    this.initialize();
+  static singleton(options) {
+    return (RSA.#instance = RSA.#instance ?? new RSA(options));
   }
 
-  initialize = () => {
+  #primes;
+
+  constructor({ bit }) {
+    this.#primes = atkin(2 ** bit - 1);
+    this.create();
+  }
+
+  create = () => {
+    this._p = this.#primes[range(2, this.#primes.length - 1)];
+    this._q = this.#primes[range(2, this.#primes.length - 1)];
+    this._n = this._p * this._q;
+    this._phi = (this._p - 1n) * (this._q - 1n);
+
     // Generating Public Key:
-    const es = [];
-    for (let e = 2; e < this.phi; e++) {
-      // a) 'e' must be smaller than 'phi'
-      // b) 'e' must be co-prime to 'phi'
-      if (bingcd(e, this.phi) === 1) es.push(e);
+    this._es = [];
+    for (let e = 2n; e < this._phi; e++) {
+      // Choose 'e' such that 1 < e < φ(n) and e and φ(n) are coprime
+      if (bingcd(e, this._phi) === 1n) this._es.push(e);
     }
-    this.e = es[range(0, es.length - 1)];
+    this._e = this._es[range(0, this._es.length - 1)];
 
     // Generating Private Key:
-    const ds = [];
-    for (let d = 2; d < this.phi; d++) {
-      // 'd' such that it satisfies d * e = 1 + phi:
-      if ((d * this.e) % this.phi === 1) ds.push(d);
+    this._ds = [];
+    for (let d = 2n; d < this._phi; d++) {
+      // Choose 'd' such that (d * e) % φ(n) = 1
+      if ((d * this._e) % this._phi === 1n) this._ds.push(d);
     }
-    this.d = ds[range(0, ds.length - 1)];
+    this._d = this._ds[range(0, this._ds.length - 1)];
   };
 
   /**
+   * @param {bigint} int Number to encrypt.
+   * @return {bigint} Encrypted number.
+   */
+  encrypt(int) {
+    return binpow(int, this._e) % this._n;
+  }
+
+  /**
+   * @param {bigint} int Number to decrypt.
+   * @return {bigint} Decrypted number.
+   */
+  decrypt(int) {
+    return binpow(int, this._d) % this._n;
+  }
+
+  /**
    * RSA encrypt method.
-   * @param {string} input Plain text.
+   * @param {string} string Plain text.
    * @returns Encrypted text.
    */
-  encrypt = (input) => {
+  encode = (string) => {
     let output = "";
-    for (const char of input) {
-      const charcode = char.codePointAt();
-      const saltcode = binpow(charcode, this.e) % this.n;
+    for (const char of string) {
+      const charcode = BigInt(char.codePointAt());
+      const saltcode = Number(this.encrypt(charcode));
       output += String.fromCodePoint(saltcode);
     }
-
     return output;
   };
 
   /**
    * RSA decrypt method.
-   * @param {string} input Encrypted text.
+   * @param {string} string Encrypted text.
    * @returns Plain text.
    */
-  decrypt = (input) => {
+  decode = (string) => {
     let output = "";
-    for (const char of input) {
-      const charcode = char.charCodeAt();
-      const saltcode = binpow(charcode, this.d) % this.n;
+    for (const char of string) {
+      const charcode = BigInt(char.charCodeAt());
+      const saltcode = Number(this.decrypt(charcode));
       output += String.fromCodePoint(saltcode);
     }
-
     return output;
   };
 
-  get keys() {
+  get log() {
+    return { p: this._p, q: this._q, n: this._n, phi: this._phi };
+  }
+  get key() {
     return {
-      publicKey: { e: this.e, n: this.n },
-      privateKey: { d: this.d, n: this.n },
+      public: { e: this._e, n: this._n },
+      secret: { d: this._d, n: this._n },
     };
   }
+}
 
-  get info() {
-    return {
-      p,
-      q,
-      n,
-      phi,
-    };
-  }
-};
+module.exports = RSA.singleton;

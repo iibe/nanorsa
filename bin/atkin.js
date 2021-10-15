@@ -1,10 +1,12 @@
-module.exports = function atkin(limit = 0) {
-  if (!Number.isInteger(limit)) {
-    throw new Error("Parameter should be an integer number.");
-  }
-
-  if (limit < 0) {
-    throw new Error("Parameter should be a positive number.");
+/**
+ * Sieve of Atkin is improved version of Eratosthene's sieve for finding a primes.
+ *
+ * @param {number} limit Finds all primes until `limit`.
+ * @return {bigint[]} Prime numbers list.
+ */
+module.exports = function atkin(limit) {
+  if (!Number.isInteger(limit) || limit < 0) {
+    throw new Error("Parameter should be a positive integer.");
   }
 
   // Initialize the sieve array with falsy values:
@@ -33,21 +35,15 @@ module.exports = function atkin(limit = 0) {
 
   // Mark all multiples of squares as non-prime:
   for (let j = 5; j * j < limit; j++) {
-    if (sieve[j]) {
-      for (i = j * j; i < limit; i += j * j) {
-        sieve[i] = false;
-      }
-    }
+    if (sieve[j]) for (i = j * j; i < limit; i += j * j) sieve[i] = false;
   }
 
   // Make a result array. 2 and 3 are known to be prime, but 1 isn't prime because, mathematicians define a number as prime if it is divided by exactly two numbers:
   const result = [];
-
-  if (limit > 2) result.push(2);
-  if (limit > 3) result.push(3);
-
+  if (limit > 2) result.push(2n);
+  if (limit > 3) result.push(3n);
   for (let i = 5; i < limit; i++) {
-    if (sieve[i]) result.push(i);
+    if (sieve[i]) result.push(BigInt(i));
   }
 
   return result;
