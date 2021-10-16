@@ -10,10 +10,8 @@ describe("bingcd():", () => {
     expect(bingcd(0n, 24n)).toBe(24n);
     expect(bingcd(0n, 0n)).toBe(0n);
   });
-
   it("should throw error", () => {
     const errorMessage = "Parameters should be an integers.";
-
     expect(() => bingcd(0, 24n)).toThrow(Error);
     expect(() => bingcd(0, 24n)).toThrow(errorMessage);
     expect(() => bingcd(0, 0)).toThrow(Error);

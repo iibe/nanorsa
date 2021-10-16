@@ -3,7 +3,7 @@ const binpow = require("./bin/binpow");
 const bingcd = require("./bin/bingcd");
 const range = require("./bin/range");
 
-class RSA {
+module.exports = class RSA {
   static #instance = null;
   #primes;
 
@@ -112,6 +112,4 @@ class RSA {
       secret: { d: this._d, n: this._n },
     };
   }
-}
-
-module.exports = RSA.singleton({ bit: 8 });
+};
