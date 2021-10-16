@@ -5,6 +5,17 @@ const range = require("./bin/range");
 
 class RSA {
   static #instance = null;
+  #primes;
+
+  /**
+   * Constructor of RSA class
+   * @param {object} options Option list
+   * @param {number} options.bit Bit complexity
+   */
+  constructor({ bit }) {
+    this.#primes = atkin(2 ** bit - 1);
+    this.initialize();
+  }
 
   /**
    * Creates only one instance of RSA class throughout the app
@@ -12,17 +23,18 @@ class RSA {
    * @param {number} options.bit Bit complexity
    */
   static singleton(options) {
-    return (RSA.#instance = RSA.#instance ?? new RSA(options));
+    if (options.bit < 0 || options.bit > 16) {
+      throw new Error("Bit complexity in range of [0, 16]");
+    }
+
+    if (!RSA.#instance) {
+      RSA.#instance = new RSA(options);
+    }
+
+    return RSA.#instance;
   }
 
-  #primes;
-
-  constructor({ bit }) {
-    this.#primes = atkin(2 ** bit - 1);
-    this.create();
-  }
-
-  create = () => {
+  initialize = () => {
     this._p = this.#primes[range(2, this.#primes.length - 1)];
     this._q = this.#primes[range(2, this.#primes.length - 1)];
     this._n = this._p * this._q;
@@ -49,7 +61,7 @@ class RSA {
    * @param {bigint} int Number to encrypt.
    * @return {bigint} Encrypted number.
    */
-  encrypt(int) {
+  #encrypt(int) {
     return binpow(int, this._e) % this._n;
   }
 
@@ -57,20 +69,20 @@ class RSA {
    * @param {bigint} int Number to decrypt.
    * @return {bigint} Decrypted number.
    */
-  decrypt(int) {
+  #decrypt(int) {
     return binpow(int, this._d) % this._n;
   }
 
   /**
    * RSA encrypt method.
    * @param {string} string Plain text.
-   * @returns Encrypted text.
+   * @return {string} Encrypted text.
    */
   encode = (string) => {
     let output = "";
     for (const char of string) {
       const charcode = BigInt(char.codePointAt());
-      const saltcode = Number(this.encrypt(charcode));
+      const saltcode = Number(this.#encrypt(charcode));
       output += String.fromCodePoint(saltcode);
     }
     return output;
@@ -79,13 +91,13 @@ class RSA {
   /**
    * RSA decrypt method.
    * @param {string} string Encrypted text.
-   * @returns Plain text.
+   * @return {string} Plain text.
    */
   decode = (string) => {
     let output = "";
     for (const char of string) {
       const charcode = BigInt(char.charCodeAt());
-      const saltcode = Number(this.decrypt(charcode));
+      const saltcode = Number(this.#decrypt(charcode));
       output += String.fromCodePoint(saltcode);
     }
     return output;
@@ -102,4 +114,4 @@ class RSA {
   }
 }
 
-module.exports = RSA.singleton;
+module.exports = RSA.singleton({ bit: 8 });
