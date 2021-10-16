@@ -1,3 +1,6 @@
+# Custom Ignores
+source.http
+
 # Logs
 logs
 *.log

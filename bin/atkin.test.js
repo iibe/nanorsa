@@ -1,16 +1,20 @@
 const atkin = require("./atkin");
 
 describe("atkin():", () => {
-  it("should generate all primes less than 20", () => {
-    expect(atkin(20)).toEqual([2n, 3n, 5n, 7n, 11n, 13n, 17n, 19n]);
+  it("should generate primes list", () => {
+    expect(atkin(0)).toEqual([]);
+    expect(atkin(1)).toEqual([]);
+    expect(atkin(2)).toEqual([]);
+    expect(atkin(3)).toEqual([2]);
+    expect(atkin(4)).toEqual([2, 3]);
+    expect(atkin(20)).toEqual([2, 3, 5, 7, 11, 13, 17, 19]);
   });
+
   it("should throw an error", () => {
-    const errorMessage = "Parameter should be a positive integer.";
-    expect(() => atkin("str")).toThrow(Error);
-    expect(() => atkin("str")).toThrow(errorMessage);
-    expect(() => atkin(-1000)).toThrow(Error);
-    expect(() => atkin(-1000)).toThrow(errorMessage);
-    expect(() => atkin()).toThrow(Error);
-    expect(() => atkin()).toThrow(errorMessage);
+    const message = "Parameter should be a positive integer.";
+    expect(() => atkin(null)).toThrow(Error);
+    expect(() => atkin(null)).toThrow(message);
+    expect(() => atkin(-123)).toThrow(Error);
+    expect(() => atkin(-123)).toThrow(message);
   });
 });

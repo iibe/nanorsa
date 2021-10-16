@@ -1,16 +1,10 @@
-/**
- * Sieve of Atkin is improved version of Eratosthene's sieve for finding a primes.
- *
- * @param {number} limit Finds all primes until `limit`.
- * @return {bigint[]} Prime numbers list.
- */
-module.exports = function atkin(limit) {
+module.exports = function atkin(limit = 1e3) {
   if (!Number.isInteger(limit) || limit < 0) {
     throw new Error("Parameter should be a positive integer.");
   }
 
   // Initialize the sieve array with falsy values:
-  const sieve = Array(++limit).fill(false);
+  const sieve = Array(limit).fill(false);
 
   /**
    * Mark sieve[n] is true if one of the following is true:
@@ -20,30 +14,34 @@ module.exports = function atkin(limit) {
    */
   for (let x = 1; x * x < limit; x++) {
     for (let y = 1; y * y < limit; y++) {
-      let i;
-
-      i = 4 * x * x + y * y;
-      if (i <= limit && (i % 12 === 1 || i % 12 === 5)) sieve[i] = true;
+      let i = 4 * x * x + y * y;
+      if (i <= limit && (i % 12 === 1 || i % 12 === 5)) sieve[i] ^= true;
 
       i = 3 * x * x + y * y;
-      if (i <= limit && i % 12 === 7) sieve[i] = true;
+      if (i <= limit && i % 12 === 7) sieve[i] ^= true;
 
       i = 3 * x * x - y * y;
-      if (i <= limit && i % 12 === 11 && x > y) sieve[i] = true;
+      if (i <= limit && i % 12 === 11 && x > y) sieve[i] ^= true;
     }
   }
 
   // Mark all multiples of squares as non-prime:
-  for (let j = 5; j * j < limit; j++) {
-    if (sieve[j]) for (i = j * j; i < limit; i += j * j) sieve[i] = false;
+  for (let s = 5; s * s < limit; s++) {
+    if (sieve[s]) {
+      for (let i = s * s; i < limit; i += s * s) {
+        sieve[i] = false;
+      }
+    }
   }
 
-  // Make a result array. 2 and 3 are known to be prime, but 1 isn't prime because, mathematicians define a number as prime if it is divided by exactly two numbers:
   const result = [];
-  if (limit > 2) result.push(2n);
-  if (limit > 3) result.push(3n);
+
+  // NOTE: 2 and 3 are known to be prime, but 1 isn't prime because, mathematicians define a number as prime if it is divided by exactly two numbers.
+  if (limit > 2) result.push(2);
+  if (limit > 3) result.push(3);
+
   for (let i = 5; i < limit; i++) {
-    if (sieve[i]) result.push(BigInt(i));
+    if (sieve[i]) result.push(i);
   }
 
   return result;

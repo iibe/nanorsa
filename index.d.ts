@@ -1,32 +1,37 @@
+// Type definitions for nanorsa 0.0.1
+// Project: https://www.npmjs.org/package/nanorsa
+// Definitions by: Roman Narvatov <https://github.com/iibe>
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
+
 /**
  * Sieve of Atkin is improved version of Eratosthene's sieve for finding a primes.
  *
- * @param {number} limit Finds all primes until `limit`.
- * @return {number} Prime numbers list.
+ * @param limit finds all primes up to a specified `limit`.
+ * @return prime numbers list.
  */
-export function atkin(limit: number): number[];
+export declare function atkin(limit?: number): number[];
 
 /**
  * Binary GCD algorithm (or Stein's algorithm or the binary Euclidean algorithm) is an improved version of Euclidean algorithm for finding the greatest common divisor of two nonnegative integers.
  *
- * @param {number} a First integer number.
- * @param {number} b Second integer number.
- * @return {number} Greatest common divisor.
+ * @param a first integer number.
+ * @param b second integer number.
+ * @return greatest common divisor or `a` and `b`.
  */
-export function bingcd(a: number, b: number): number;
+export declare function bingcd(a: number, b: number): number;
 
 /**
  * Binary power algorithm is an improved alghorithm for number exponentiation.
  *
- * @param {bigint} number Base number.
- * @param {bigint} power Exponent (or power, or index).
- * @return {bigint} Result of exponentiation.
+ * @param number base number.
+ * @param power exponent (or power, or index).
+ * @return exponentiation result.
  */
-export function binpow(number: bigint, power: bigint): bigint;
+export declare function binpow(number: bigint, power: bigint): bigint;
 
 /**
- * @param {number} min Minimum possible generated number.
- * @param {number} max Maximum possible generated number.
- * @return {number} Random integer from [min, max] range.
+ * @param min minimum possible generated integer.
+ * @param max maximum possible generated integer.
+ * @return integer in [min, max] range.
  */
-export function range(min: number, max: number): number;
+export declare function range(min: number, max: number): number;

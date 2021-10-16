@@ -1,18 +1,9 @@
-const workerpool = require("workerpool");
-const path = require("path");
+const rsa = require("./rsa")({ bit: 8 });
+const msg = "Hello world";
+const enc = rsa.encode(msg);
+const dec = rsa.decode(enc);
+console.log(msg, enc, dec);
+console.log(rsa.log);
+console.log(rsa.key);
 
-const pool = workerpool.pool(path.join(__dirname, "./workerpool.js"));
-
-const message = "Hello world";
-
-pool
-  .exec("rsaEncode", [message])
-  .then((result) => console.log(result))
-  .catch((error) => console.error(error))
-  .then(() => pool.terminate());
-
-pool
-  .exec("rsaDecode", [message])
-  .then((result) => console.log(result))
-  .catch((error) => console.error(error))
-  .then(() => pool.terminate());
+//TODO Improve atkin to handle numbers greater than 2^53 - 1 (let i = 4 * x * x + y * y)

@@ -3,24 +3,13 @@ const binpow = require("./bin/binpow");
 const bingcd = require("./bin/bingcd");
 const range = require("./bin/range");
 
-module.exports = class RSA {
+class RSA {
   static #instance = null;
-  #primes;
-
-  /**
-   * Constructor of RSA class
-   * @param {object} options Option list
-   * @param {number} options.bit Bit complexity
-   */
-  constructor({ bit }) {
-    this.#primes = atkin(2 ** bit - 1);
-    this.initialize();
-  }
 
   /**
    * Creates only one instance of RSA class throughout the app
-   * @param {object} options Option list
-   * @param {number} options.bit Bit complexity
+   * @param {object} options option list.
+   * @param {number} options.bit bit complexity.
    */
   static singleton(options) {
     if (options.bit < 0 || options.bit > 16) {
@@ -34,71 +23,77 @@ module.exports = class RSA {
     return RSA.#instance;
   }
 
+  #primes;
+
+  /**
+   * Constructor of RSA class
+   * @param {object} options option list.
+   * @param {number} options.bit - bit complexity.
+   */
+  constructor({ bit }) {
+    this.#primes = atkin(2 ** bit - 1);
+    this.initialize();
+  }
+
   initialize = () => {
     this._p = this.#primes[range(2, this.#primes.length - 1)];
     this._q = this.#primes[range(2, this.#primes.length - 1)];
     this._n = this._p * this._q;
-    this._phi = (this._p - 1n) * (this._q - 1n);
+    this._phi = (this._p - 1) * (this._q - 1);
 
     // Generating Public Key:
     this._es = [];
-    for (let e = 2n; e < this._phi; e++) {
+    for (let e = 2; e < this._phi; e++) {
       // Choose 'e' such that 1 < e < φ(n) and e and φ(n) are coprime
-      if (bingcd(e, this._phi) === 1n) this._es.push(e);
+      if (bingcd(e, this._phi) === 1) this._es.push(e);
     }
     this._e = this._es[range(0, this._es.length - 1)];
 
     // Generating Private Key:
     this._ds = [];
-    for (let d = 2n; d < this._phi; d++) {
+    for (let d = 2; d < this._phi; d++) {
       // Choose 'd' such that (d * e) % φ(n) = 1
-      if ((d * this._e) % this._phi === 1n) this._ds.push(d);
+      if ((d * this._e) % this._phi === 1) this._ds.push(d);
     }
     this._d = this._ds[range(0, this._ds.length - 1)];
   };
 
   /**
-   * @param {bigint} int Number to encrypt.
-   * @return {bigint} Encrypted number.
+   * @param {number} number number to encrypt.
+   * @return {number} encrypted number.
    */
-  #encrypt(int) {
-    return binpow(int, this._e) % this._n;
+  #encrypt(number) {
+    return Number(binpow(BigInt(number), BigInt(this._e)) % BigInt(this._n));
   }
 
   /**
-   * @param {bigint} int Number to decrypt.
-   * @return {bigint} Decrypted number.
+   * @param {number} number number to decrypt.
+   * @return {number} decrypted number.
    */
-  #decrypt(int) {
-    return binpow(int, this._d) % this._n;
+  #decrypt(number) {
+    return Number(binpow(BigInt(number), BigInt(this._d)) % BigInt(this._n));
   }
 
   /**
-   * RSA encrypt method.
-   * @param {string} string Plain text.
-   * @return {string} Encrypted text.
+   * @param {string} string original text.
+   * @return {string} encrypted text.
    */
   encode = (string) => {
     let output = "";
     for (const char of string) {
-      const charcode = BigInt(char.codePointAt());
-      const saltcode = Number(this.#encrypt(charcode));
-      output += String.fromCodePoint(saltcode);
+      output += String.fromCodePoint(this.#encrypt(char.codePointAt()));
     }
     return output;
   };
 
   /**
-   * RSA decrypt method.
-   * @param {string} string Encrypted text.
-   * @return {string} Plain text.
+   * @param {string} string encrypted text.
+   * @return {string} original text.
    */
   decode = (string) => {
     let output = "";
     for (const char of string) {
-      const charcode = BigInt(char.charCodeAt());
-      const saltcode = Number(this.#decrypt(charcode));
-      output += String.fromCodePoint(saltcode);
+      output += String.fromCodePoint(this.#decrypt(char.codePointAt()));
     }
     return output;
   };
@@ -112,4 +107,6 @@ module.exports = class RSA {
       secret: { d: this._d, n: this._n },
     };
   }
-};
+}
+
+module.exports = RSA.singleton;
