@@ -10,6 +10,16 @@ describe("atkin():", () => {
     expect(atkin(20)).toEqual([2, 3, 5, 7, 11, 13, 17, 19]);
   });
 
+  it("should generate a sieve of UTF-16 size (2^16 - 1):", () => {
+    const sieveForTwenty = [2, 3, 5, 7, 11, 13, 17, 19]; // see above test
+    const capacity = 2 ** 16 - 1; // 65535
+    const primes = atkin(capacity);
+
+    expect(primes.length).toBeGreaterThan(0);
+    expect(primes.length).toBeLessThan(capacity);
+    expect(primes.slice(0, sieveForTwenty.length)).toEqual(sieveForTwenty);
+  });
+
   it("should throw an error", () => {
     const message = "Parameter should be a positive integer.";
     expect(() => atkin(null)).toThrow(Error);
