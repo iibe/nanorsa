@@ -1,4 +1,4 @@
-module.exports = function atkin(limit = 1e3) {
+module.exports = function atkin(limit) {
   if (!Number.isInteger(limit) || limit < 0) {
     throw new Error("Parameter should be a positive integer.");
   }

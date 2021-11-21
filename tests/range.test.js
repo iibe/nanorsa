@@ -1,4 +1,4 @@
-const range = require("./range");
+const range = require("../utils/range");
 
 describe("range():", () => {
   it("should return integer in range [min, max]:", () => {
@@ -11,6 +11,11 @@ describe("range():", () => {
       expect(random).toBeLessThanOrEqual(max);
       if (uniques.has(random)) uniques.delete(random);
     }
+  });
+
+  it("should return only one number", () => {
+    expect(range(0, 0)).toBe(0);
+    expect(range(1, 1)).toBe(1);
   });
 
   it("should throw error", () => {

@@ -1,4 +1,4 @@
-const atkin = require("./atkin");
+const atkin = require("../utils/atkin");
 
 describe("atkin():", () => {
   it("should generate primes list", () => {
@@ -10,7 +10,7 @@ describe("atkin():", () => {
     expect(atkin(20)).toEqual([2, 3, 5, 7, 11, 13, 17, 19]);
   });
 
-  it("should generate a sieve of UTF-16 size (2^16 - 1):", () => {
+  it("should generate a sieve of Unicode size (2^16 - 1 = 65535):", () => {
     const sieveForTwenty = [2, 3, 5, 7, 11, 13, 17, 19]; // see above test
     const capacity = 2 ** 16 - 1; // 65535
     const primes = atkin(capacity);

@@ -9,7 +9,7 @@
  * @param limit finds all primes up to a specified `limit`.
  * @return prime numbers list.
  */
-export declare function atkin(limit?: number): number[];
+export declare function atkin(limit: number): number[];
 
 /**
  * Binary GCD algorithm (or Stein's algorithm or the binary Euclidean algorithm) is an improved version of Euclidean algorithm for finding the greatest common divisor of two nonnegative integers.
@@ -18,7 +18,7 @@ export declare function atkin(limit?: number): number[];
  * @param b second integer number.
  * @return greatest common divisor or `a` and `b`.
  */
-export declare function bingcd(a: number, b: number): number;
+export declare function bingcd(a: bigint, b: bigint): bigint;
 
 /**
  * Binary power algorithm is an improved alghorithm for number exponentiation.
@@ -35,3 +35,7 @@ export declare function binpow(number: bigint, power: bigint): bigint;
  * @return integer in [min, max] range.
  */
 export declare function range(min: number, max: number): number;
+
+export interface BitSize {
+  bit: 4 | 8 | 16;
+}
